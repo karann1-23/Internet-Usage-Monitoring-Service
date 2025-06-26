@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Usage Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        input, button { padding: 8px; margin: 5px; }
+        #result { margin-top: 20px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h2>Search User Internet Usage</h2>
+    <form id="searchForm">
+        <label>Username: <input type="text" id="username" required></label><br>
+        <label>Timestamp (YYYY-MM-DDHH:MM): <input type="text" id="timestamp" required></label><br>
+        <small>
+            Example: <b><i>2022-12-0500:00</i></b> or <b><i>2022-12-05T00:00</b></i>
+          </small>
+        <button type="submit">Search</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        document.getElementById('searchForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const timestamp = document.getElementById('timestamp').value.replace(' ', '%20');
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = "Loading...";
+            try {
+                const res = await fetch(`/user-details?name=${encodeURIComponent(username)}&timestamp=${encodeURIComponent(timestamp)}`);
+                if (!res.ok) {
+                    const err = await res.json();
+                    resultDiv.innerHTML = `<div class="error">${err.detail}</div>`;
+                } else {
+                    const data = await res.json();
+                    resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (err) {
+                resultDiv.innerHTML = `<div class="error">Error: ${err}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
+
