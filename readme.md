@@ -40,10 +40,6 @@ Includes APIs for analytics and a simple HTML frontend for user search.
 - **GET /top-users** — Paginated top users by usage
 - **GET /user-details?name=USERNAME&timestamp=YYYY-MM-DD%20HH:MM** — User usage by name and timestamp
 
-## HTML Search Page
-
-- Visit [http://127.0.0.1:8000/static/user_search.html](http://127.0.0.1:8000/static/user_search.html) for a simple user search interface.
-
 ## Running Tests
 
 To run the unit tests, use:Pytest
